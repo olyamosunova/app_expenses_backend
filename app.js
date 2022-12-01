@@ -18,7 +18,7 @@ if (process.env.REACT_APP_NODE_ENV === 'production') {
   })
 }
 
-const PORT = process.env.REACT_APP_PORT || 5000
+const PORT = process.env.REACT_APP_PORT
 
 const start = async () => {
   try {
