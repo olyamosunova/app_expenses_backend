@@ -94,7 +94,7 @@ router.post(
         { userId: user.id },
         process.env.REACT_APP_JWT_SECRET,
         {
-          expiresIn: '24h',
+          expiresIn: '30d',
         },
       )
 
