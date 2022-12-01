@@ -1,4 +1,5 @@
 const express = require('express')
+const http = require('http')
 const path = require('path')
 const mongoose = require('mongoose')
 require('dotenv').config()
@@ -18,21 +19,21 @@ if (process.env.REACT_APP_NODE_ENV === 'production') {
   })
 }
 
+const server = http.createServer(app)
+
 const PORT = process.env.REACT_APP_PORT
 
-const start = async () => {
-  try {
-    await mongoose.connect(process.env.REACT_APP_MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    app.listen(PORT, () =>
-      console.log(`'App has been started on port ${PORT}...`),
+mongoose
+  .connect(process.env.REACT_APP_MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    server.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`),
     )
-  } catch (e) {
-    console.log('Server Error', e.message)
+  })
+  .catch(err => {
+    console.log('Server Error', err.message)
     process.exit(1)
-  }
-}
-
-start()
+  })
