@@ -1,0 +1,29 @@
+{
+  "name": "app-expenses-backend",
+  "version": "1.0.0",
+  "description": "App expenses",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Olya Mosunova",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.2",
+    "shortid": "^2.2.16",
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+
+    "prettier": "^2.7.1"
+  }
+}
