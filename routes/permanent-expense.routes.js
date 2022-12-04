@@ -2,14 +2,14 @@ const { Router } = require('express')
 
 const PermanentExpense = require('../models/permanent-expense')
 const auth = require('../middleware/auth.middleware')
-const { ObjectId } = require('mongodb')
+
 const router = Router()
 
 router.put('/create', auth, async (req, res) => {
   try {
     const { values, id } = req.body
 
-    const query = { _id: id ? ObjectId(id) : undefined }
+    const query = { _id: id }
 
     let expense = await PermanentExpense.findOne(query)
 
