@@ -11,7 +11,8 @@ app.use(express.json({ extended: true }))
 app.use(cors())
 
 app.use('/api/auth', require('./routes/auth.routes'))
-app.use('/api/expense', require('./routes/expense.routes'))
+app.use('/api/temporary-expense', require('./routes/temporary-expense.routes'))
+app.use('/api/permanent-expense', require('./routes/permanent-expense.routes'))
 
 if (process.env.REACT_APP_NODE_ENV === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'build')))

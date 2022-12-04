@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const Expense = require('../models/expense')
+const TemporaryExpense = require('../models/temporary-expense')
 const auth = require('../middleware/auth.middleware')
 const router = Router()
 
@@ -7,7 +7,7 @@ router.post('/create', auth, async (req, res) => {
   try {
     const { date, money, category, comment } = req.body
 
-    const expense = new Expense({
+    const expense = new TemporaryExpense({
       date,
       money,
       category,
@@ -19,7 +19,7 @@ router.post('/create', auth, async (req, res) => {
 
     res.status(201).json({ expense })
   } catch (e) {
-    res.status(500).json({ message: 'Что-то пошло не так, попрлбуйте снова' })
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
   }
 })
 
@@ -28,7 +28,7 @@ router.get('/', auth, async (req, res) => {
     const startDate = new Date(req.query.startDate)
     const endDate = new Date(req.query.endDate)
 
-    const expenses = await Expense.find({
+    const expenses = await TemporaryExpense.find({
       owner: req.user.userId,
       date: { $gte: startDate, $lt: endDate },
     })
