@@ -7,9 +7,9 @@ const router = Router()
 
 router.put('/create', auth, async (req, res) => {
   try {
-    const { values, id } = req.body
+    const { values } = req.body
 
-    const query = { _id: id }
+    const query = { owner: req.user.userId }
 
     let expense = await PermanentExpense.findOne(query)
 
