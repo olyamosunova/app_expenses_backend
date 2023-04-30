@@ -36,7 +36,7 @@ router.get('/', auth, async (req, res) => {
       owner: req.user.userId,
     })
 
-    res.json(expenses)
+    res.json({ id: expenses?.[0]?._id, expenses: expenses?.[0]?.values ?? [] })
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
   }
