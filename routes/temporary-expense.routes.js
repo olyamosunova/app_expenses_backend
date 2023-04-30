@@ -33,7 +33,41 @@ router.get('/', auth, async (req, res) => {
       date: { $gte: startDate, $lt: endDate },
     })
 
-    res.json(expenses)
+    res.json({
+      expenses: expenses.map(item => ({
+        id: item.id,
+        money: item.money,
+        category: item.category,
+        date: item.date,
+        comment: item.comment,
+      })),
+    })
+  } catch (e) {
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+  }
+})
+
+router.get('/category', auth, async (req, res) => {
+  try {
+    const startDate = new Date(req.query.startDate)
+    const endDate = new Date(req.query.endDate)
+    const category = req.query.category
+
+    const expenses = await TemporaryExpense.find({
+      owner: req.user.userId,
+      date: { $gte: startDate, $lt: endDate },
+      category,
+    })
+
+    const mappedExpenses = (expenses ?? []).map(item => ({
+      date: item.date,
+      money: item.money,
+      comment: item.comment,
+    }))
+
+    res.json({
+      expenses: mappedExpenses,
+    })
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
   }
