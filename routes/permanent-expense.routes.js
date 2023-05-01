@@ -7,17 +7,31 @@ const router = Router()
 
 router.put('/create', auth, async (req, res) => {
   try {
-    const { values } = req.body
+    const { date, data } = req.body
 
-    const query = { owner: req.user.userId }
+    const dateObj = new Date(date)
+
+    const month = dateObj.getMonth() + 1
+    const year = dateObj.getFullYear()
+
+    const query = {
+      owner: req.user.userId,
+      $expr: {
+        $and: [
+          { $eq: [{ $month: '$date' }, month] },
+          { $eq: [{ $year: '$date' }, year] },
+        ],
+      },
+    }
 
     let expense = await PermanentExpense.findOne(query)
 
     if (expense) {
-      expense.values = values.values
+      expense.values = data
     } else {
       expense = new PermanentExpense({
-        values: values.values,
+        values: data,
+        date,
         owner: req.user.userId,
       })
     }
@@ -32,8 +46,19 @@ router.put('/create', auth, async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
   try {
+    const date = new Date(req.query.date)
+
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+
     const expenses = await PermanentExpense.find({
       owner: req.user.userId,
+      $expr: {
+        $and: [
+          { $eq: [{ $month: '$date' }, month] },
+          { $eq: [{ $year: '$date' }, year] },
+        ],
+      },
     })
 
     res.json({ id: expenses?.[0]?._id, expenses: expenses?.[0]?.values ?? [] })
