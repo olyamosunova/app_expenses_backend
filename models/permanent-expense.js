@@ -7,6 +7,7 @@ const schema = new Schema({
       category: { type: String, default: 'other', required: true },
     },
   ],
+  date: { type: Date, default: Date.now },
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
 })
 
